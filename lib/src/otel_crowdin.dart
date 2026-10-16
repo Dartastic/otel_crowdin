@@ -1,13 +1,13 @@
-// Licensed under the Dartastic Pro Software License Agreement.
+// Licensed under the MIT License.
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_crowdin_suppression.dart';
 
 const _tracerName = 'dartastic_otel_libs_crowdin';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class CrowdinResult {
   const CrowdinResult({
@@ -116,116 +116,116 @@ Future<T> tracedCrowdin<T>({
   final span = _tracer().startSpan(
     'crowdin $operation',
     kind: SpanKind.client,
-    attributes: OTel.attributesFromMap(m),
+    attributes: OTelAPI.attributesFromMap(m),
   );
   try {
     final r = await invoke();
     if (r.result != null) {
       final extras = <Attribute<Object>>[];
       if (r.result!.organization != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.organization',
           r.result!.organization!,
         ));
       }
       if (r.result!.projectId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.project.id',
           r.result!.projectId!,
         ));
       }
       if (r.result!.projectVisibility != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.project.visibility',
           r.result!.projectVisibility!,
         ));
       }
       if (r.result!.entityKind != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.entity.kind',
           r.result!.entityKind!,
         ));
       }
       if (r.result!.entityId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.entity.id',
           r.result!.entityId!,
         ));
       }
       if (r.result!.fileId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.file.id',
           r.result!.fileId!,
         ));
       }
       if (r.result!.fileType != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.file.type',
           r.result!.fileType!,
         ));
       }
       if (r.result!.branchId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.branch.id',
           r.result!.branchId!,
         ));
       }
       if (r.result!.targetLanguageId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.target_language.id',
           r.result!.targetLanguageId!,
         ));
       }
       if (r.result!.stringsTotal != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'crowdin.strings.total',
           r.result!.stringsTotal!,
         ));
       }
       if (r.result!.translatedProgress != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'crowdin.progress.translated',
           r.result!.translatedProgress!,
         ));
       }
       if (r.result!.approvedProgress != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'crowdin.progress.approved',
           r.result!.approvedProgress!,
         ));
       }
       if (r.result!.mtEngineId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.mt.engine_id',
           r.result!.mtEngineId!,
         ));
       }
       if (r.result!.mtCharsConsumed != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'crowdin.mt.chars_consumed',
           r.result!.mtCharsConsumed!,
         ));
       }
       if (r.result!.tasksId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.task.id',
           r.result!.tasksId!,
         ));
       }
       if (r.result!.tasksStatus != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.task.status',
           r.result!.tasksStatus!,
         ));
       }
       if (r.result!.workflowStepId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'crowdin.workflow_step.id',
           r.result!.workflowStepId!,
         ));
       }
       if (r.result!.statusCode != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'http.response.status_code',
           r.result!.statusCode!,
         ));
@@ -236,13 +236,13 @@ Future<T> tracedCrowdin<T>({
           );
         }
       }
-      if (extras.isNotEmpty) span.addAttributes(OTel.attributes(extras));
+      if (extras.isNotEmpty) span.addAttributes(OTelAPI.attributes(extras));
     }
     return r.value;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
-        ErrorResource.errorType.key,
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));
