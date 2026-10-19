@@ -10,6 +10,7 @@ const _tracerName = 'dartastic_otel_libs_crowdin';
 APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class CrowdinResult {
+  /// Creates a result.
   const CrowdinResult({
     this.organization,
     this.projectId,
@@ -86,8 +87,13 @@ class CrowdinResult {
   final int? statusCode;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class CrowdinCallResult<T> {
+  /// Creates a call result.
   const CrowdinCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final CrowdinResult? result;
 }
